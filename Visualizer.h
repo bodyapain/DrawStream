@@ -5,7 +5,7 @@ class Visualizer
 public:
     void display() {
         renderer.clear();
-        renderer.setColor(1.0f, 0.5f, 1.0f); // белый
+        renderer.setColor(0.5f, 0.5f, 1.0f); // белый
         renderer.drawQuad(0.0f, 0.0f, 1.0f);
         renderer.swapBuffers();
     }

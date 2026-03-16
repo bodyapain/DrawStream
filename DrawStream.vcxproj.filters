@@ -16,19 +16,13 @@
     <Filter Include="Исходные файлы\drawing">
       <UniqueIdentifier>{b42df68b-eaf0-416b-9b46-e90bfb7771aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\streamer">
+      <UniqueIdentifier>{8c7dd209-fefe-4278-8a14-cd03e3bbc104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawStream.cpp">
       <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Primitives.cpp">
-      <Filter>Исходные файлы\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Исходные файлы\drawing</Filter>
-    </ClCompile>
-    <ClCompile Include="Visualizer.cpp">
-      <Filter>Исходные файлы\drawing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="Visualizer.h">
       <Filter>Исходные файлы\drawing</Filter>
+    </ClInclude>
+    <ClInclude Include="Sender.h">
+      <Filter>Исходные файлы\streamer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="DrawStream.vcxproj" />
+  <Project Path="DrawStream.vcxproj" Id="079a5fa6-b4e8-40b5-9698-ad8cc8508c43" />
 </Solution>
