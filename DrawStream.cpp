@@ -21,7 +21,7 @@ void displayCallback() {
             std::vector<char> pixels(width * height * 3);
             glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 
-            gSender->prepareBuffers(pixels.data(), pixels.size());
+            gSender->prepareBuffers(pixels, pixels.size());
             gSender->send();
         }
     }
@@ -43,6 +43,8 @@ int main() {
     Sender sender;
     gSender = &sender;
     sender.connectToServer("127.0.0.1", "8888");
+    gSender->startStream();
+
     glutDisplayFunc(displayCallback);
     glutMainLoop();
     return 0;
