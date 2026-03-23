@@ -6,17 +6,14 @@
 #include <thread>
 #include "Visualizer.h"
 #include "Sender.h"
-
+#include <vector>
 Visualizer* gVis = nullptr;
 Sender* gSender = nullptr;
 
 void displayCallback() {
     if (gVis) {
         gVis->display();
-
-        // После отрисовки захватываем кадр и отправляем
         if (gSender) {
-            // Здесь нужно захватить пиксели из OpenGL
             int width = 800, height = 600;
             std::vector<char> pixels(width * height * 3);
             glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
@@ -25,7 +22,37 @@ void displayCallback() {
             gSender->send();
         }
     }
+}void convertMouseCoords(int mouseX, int mouseY, float& outX, float& outY) {
+    int width = 800, height = 600;
+    outX = (2.0f * mouseX / width) - 1.0f;
+    outY = 1.0f - (2.0f * mouseY / height);
 }
+
+void mouseCallback(int button, int state, int x, int y) {
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        float glX, glY;
+        convertMouseCoords(x, y, glX, glY);
+        if (gVis) {
+            gVis->startDrawing(glX, glY);
+        }
+    }
+    else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+        if (gVis) {
+            gVis->finishDrawing();
+        }
+    }
+}
+
+
+void motionCallback(int x, int y) {
+    float glX, glY;
+    convertMouseCoords(x, y, glX, glY);
+    if (gVis) {
+        gVis->continueDrawing(glX, glY);
+        glutPostRedisplay(); 
+    }
+}
+
 
 int main() {
     int argc = 1;
@@ -38,14 +65,13 @@ int main() {
 
     Visualizer vis;
     gVis = &vis;
-
-    // Создаем отправитель и подключаемся к клиенту
     Sender sender;
     gSender = &sender;
     sender.connectToServer("127.0.0.1", "8888");
     gSender->startStream();
-
     glutDisplayFunc(displayCallback);
+    glutMouseFunc(mouseCallback);
+    glutMotionFunc(motionCallback);
     glutMainLoop();
     return 0;
 }

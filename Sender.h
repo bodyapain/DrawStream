@@ -18,12 +18,24 @@ public:
 			send_thread.join();
 	}
 
-	void connectToServer(const std::string& host, const std::string& port) 
+	void connectToServer(const std::string& host, const std::string& port)
 	{
 		boost::asio::ip::tcp::resolver resolver(io_context);
 		auto endpoints = resolver.resolve(host, port);
 
-		boost::asio::connect(socket, endpoints);
+		boost::system::error_code ec;
+		boost::asio::connect(socket, endpoints, ec);
+
+		while (ec) {
+			std::cerr << "Connection failed: " << ec.message() << "\n";
+			std::cerr << "Retrying in 3 seconds...\n";
+
+			socket.close();
+			std::this_thread::sleep_for(std::chrono::seconds(3));
+
+			boost::asio::connect(socket, endpoints, ec);
+		}
+
 		std::cout << "Connected to " << host << ":" << port << "\n";
 	}
 

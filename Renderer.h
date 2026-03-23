@@ -21,7 +21,7 @@ public:
     }
 
     void swapBuffers() {
-        glFlush(); // или glutSwapBuffers() для двойной буферизации
+        glFlush();
     }
 };
 
